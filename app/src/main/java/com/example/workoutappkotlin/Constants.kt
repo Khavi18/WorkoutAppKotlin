@@ -65,7 +65,7 @@ object Constants {
             false,
             false
         )
-        exerciseList.add(jumpingJacks)
+        exerciseList.add(pushUpRotation)
 
         val sidePlank = ExerciseModel(
             8,
