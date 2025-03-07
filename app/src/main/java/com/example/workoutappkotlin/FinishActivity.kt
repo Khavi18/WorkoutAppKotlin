@@ -25,9 +25,16 @@ class FinishActivity : AppCompatActivity() {
             insets
         }
 
+        setSupportActionBar(binding?.toolbarFinishActivity)
+        if (supportActionBar != null) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+        binding?.toolbarFinishActivity?.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         binding?.btnFinish?.setOnClickListener {
             finish()
-
         }
     }
 
