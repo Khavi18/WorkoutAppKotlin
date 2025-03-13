@@ -9,4 +9,7 @@
     <color name="lightGray">#C4C4C4</color>
     <color name="toolBarColorControlNormal">#000000</color>
     <color name="progressGray">#D4DEE7</color>
+    <color name="textGray">#ADB3BE</color>
+    <color name="lightWhite">#ECEDEF</color>
+    <color name="borderGray">#9AA2AF</color>
 </resources>
