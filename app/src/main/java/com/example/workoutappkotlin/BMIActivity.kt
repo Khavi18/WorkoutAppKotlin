@@ -13,7 +13,13 @@ import java.math.RoundingMode
 
 class BMIActivity : AppCompatActivity() {
 
+    companion object {
+        private const val METRIC_UNITS_VIEW = "METRIC_UNIT_VIEW" // Metric Unit View
+        private const val US_UNITS_VIEW = "US_UNIT_VIEW" // US Unit View
+    }
+
     private var binding: ActivityBmiBinding? = null
+    private var currentVisibleView: String = METRIC_UNITS_VIEW
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +54,37 @@ class BMIActivity : AppCompatActivity() {
                 Toast.makeText(this@BMIActivity, "Please enter valid values.", Toast.LENGTH_SHORT).show()
             }
         }
+
+        makeVisibleMetricUnitsView()
+
+        binding?.rgUnits?.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == R.id.rbMetricUnits) {
+                makeVisibleMetricUnitsView()
+            } else {
+                makeVisibleUsUnitsView()
+            }
+        }
+    }
+
+    private fun makeVisibleMetricUnitsView() {
+        currentVisibleView = METRIC_UNITS_VIEW
+        binding?.llMetricUnits?.visibility = View.VISIBLE
+        binding?.llUsUnits?.visibility = View.INVISIBLE
+
+        binding?.etMetricUnitHeight?.text!!.clear()
+        binding?.etMetricUnitWeight?.text!!.clear()
+        binding?.llDisplayBMIResult?.visibility = View.INVISIBLE
+    }
+
+    private fun makeVisibleUsUnitsView() {
+        currentVisibleView = US_UNITS_VIEW
+        binding?.llUsUnits?.visibility = View.VISIBLE
+        binding?.llMetricUnits?.visibility = View.INVISIBLE
+
+        binding?.etUsUnitWeight?.text!!.clear()
+        binding?.etUsUnitFeet?.text!!.clear()
+        binding?.etUsUnitInch?.text!!.clear()
+        binding?.llDisplayBMIResult?.visibility = View.INVISIBLE
     }
 
     private fun displayBMIResult(bmi: Float) {
