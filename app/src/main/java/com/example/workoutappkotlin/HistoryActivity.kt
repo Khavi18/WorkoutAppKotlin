@@ -1,23 +1,21 @@
 package com.example.workoutappkotlin
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.workoutappkotlin.databinding.ActivityMainBinding
+import com.example.workoutappkotlin.databinding.ActivityHistoryBinding
 
-class MainActivity : AppCompatActivity() {
+class HistoryActivity : AppCompatActivity() {
 
-    private var binding: ActivityMainBinding? = null
+    var binding: ActivityHistoryBinding? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding?.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -25,27 +23,20 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding?.flStart?.setOnClickListener {
-            val intent = Intent(this, ExerciseActivity::class.java)
-            startActivity(intent)
+        setSupportActionBar(binding?.toolbarHistory)
 
+        if(supportActionBar != null) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.title = "HISTORY"
         }
-
-        binding?.flBMI?.setOnClickListener {
-            val intent = Intent(this, BMIActivity::class.java)
-            startActivity(intent)
-
-        }
-
-        binding?.flHistory?.setOnClickListener {
-            val intent = Intent(this, HistoryActivity::class.java)
-            startActivity(intent)
-
+        binding?.toolbarHistory?.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+
         binding = null
     }
 }
