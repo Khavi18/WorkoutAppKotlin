@@ -43,15 +43,10 @@ class BMIActivity : AppCompatActivity() {
         }
 
         binding?.btnCalculateUnits?.setOnClickListener {
-            if(validateMetricUnits()) {
-                val heightValue: Float = binding?.etMetricUnitHeight?.text.toString().toFloat() / 100
-                val weightValue: Float = binding?.etMetricUnitWeight?.text.toString().toFloat()
-
-                val bmi = weightValue / (heightValue*heightValue)
-                displayBMIResult(bmi)
-
+            if (currentVisibleView == METRIC_UNITS_VIEW) {
+                calculateMetricUnits()
             } else {
-                Toast.makeText(this@BMIActivity, "Please enter valid values.", Toast.LENGTH_SHORT).show()
+                calculateUsUnits()
             }
         }
 
@@ -63,6 +58,34 @@ class BMIActivity : AppCompatActivity() {
             } else {
                 makeVisibleUsUnitsView()
             }
+        }
+    }
+
+    private fun calculateUsUnits() {
+        if(validateUsUnits()) {
+            val feetValue: Float = binding?.etUsUnitFeet?.text.toString().toFloat()
+            val inchValue: Float =  binding?.etUsUnitInch?.text.toString().toFloat()
+            val heightValue: Float = (feetValue * 12) + inchValue
+            val weightValue: Float = binding?.etUsUnitWeight?.text.toString().toFloat()
+
+            val bmi = (weightValue / (heightValue*heightValue)) * 703
+            displayBMIResult(bmi)
+
+        } else {
+            Toast.makeText(this@BMIActivity, "Please enter valid values.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun calculateMetricUnits() {
+        if(validateMetricUnits()) {
+            val heightValue: Float = binding?.etMetricUnitHeight?.text.toString().toFloat() / 100
+            val weightValue: Float = binding?.etMetricUnitWeight?.text.toString().toFloat()
+
+            val bmi = weightValue / (heightValue*heightValue)
+            displayBMIResult(bmi)
+
+        } else {
+            Toast.makeText(this@BMIActivity, "Please enter valid values.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -129,6 +152,14 @@ class BMIActivity : AppCompatActivity() {
     private fun validateMetricUnits() : Boolean {
         var isValid = true
         if(binding?.etMetricUnitWeight?.text.toString().isEmpty() || binding?.etMetricUnitHeight?.text.toString().isEmpty()) {
+            isValid = false
+        }
+        return isValid
+    }
+
+    private fun validateUsUnits() : Boolean {
+        var isValid = true
+        if(binding?.etUsUnitWeight?.text.toString().isEmpty() || binding?.etUsUnitFeet?.text.toString().isEmpty() || binding?.etUsUnitInch?.text.toString().isEmpty()){
             isValid = false
         }
         return isValid
