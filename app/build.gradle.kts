@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -40,6 +41,14 @@ android {
 }
 
 dependencies {
+
+    //Room
+    kapt(libs.room.compiler)
+    implementation(libs.room.runtime)
+    //Coroutine Room
+    implementation(libs.room.ktx)
+    //Coroutine Activities
+    implementation(libs.androidx.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

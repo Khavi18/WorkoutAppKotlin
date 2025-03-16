@@ -2,11 +2,17 @@ package com.example.workoutappkotlin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.workoutappkotlin.databinding.ActivityFinishBinding
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class FinishActivity : AppCompatActivity() {
 
@@ -36,6 +42,23 @@ class FinishActivity : AppCompatActivity() {
         binding?.btnFinish?.setOnClickListener {
             finish()
         }
+
+        val historyDao = (application as WorkoutApp).db.historyDao()
+        addDateToDatabase(historyDao)
+    }
+
+    private fun addDateToDatabase(historyDao: HistoryDao) {
+
+        val c = Calendar.getInstance()
+        val dateTime = c.time
+
+        val sdf = SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.getDefault())
+        val date = sdf.format(dateTime)
+
+        lifecycleScope.launch {
+            historyDao.insert(HistoryEntity(date))
+        }
+
     }
 
     override fun onDestroy() {
